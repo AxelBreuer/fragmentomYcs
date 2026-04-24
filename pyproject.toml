@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fragmentomYcs"
+version = "0.99.12"
+description = "Fragment-level allelic analysis of cfDNA sequencing data"
+requires-python = ">=3.9"
+dependencies = [
+    "pandas",
+    # pysam has no Windows binary — install via conda on Linux/macOS:
+    #   conda install -c conda-forge pysam
+    # On Windows the code automatically falls back to bamnostic (pure Python).
+    "bamnostic",
+    "pyfaidx",
+]
+
+[project.optional-dependencies]
+# cyvcf2 is the faster VCF parser; the code falls back to pysam if absent
+vcf = ["cyvcf2"]
+
+[project.scripts]
+# Installs a `fragmentomYcs` command available anywhere on PATH
+fragmentomYcs = "fragmentomYcs.__main__:main"
+
+# Standard layout: source is in fragmentomYcs/ next to this file.
+# No package-dir mapping needed.
+[tool.setuptools]
+packages = ["fragmentomYcs", "fragmentomYcs.pybcftools"]
